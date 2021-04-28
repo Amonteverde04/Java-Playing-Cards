@@ -1,9 +1,18 @@
 
 package playingCards24;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.Random;
+import java.util.Scanner;
+
 
 public class Card_game_jframe extends javax.swing.JFrame {
 
+    // globals for attempts, and total
+    private int total = 0;
+    private int attempts = 0;
+    
     /**
      * Creates new form Card_game_jframe
      */
@@ -21,16 +30,21 @@ public class Card_game_jframe extends javax.swing.JFrame {
     private void initComponents() {
 
         jFrame1 = new javax.swing.JFrame();
+        jSeparator1 = new javax.swing.JSeparator();
         userSubmissionButton = new javax.swing.JButton();
         refreshButton = new javax.swing.JButton();
         findSolution = new javax.swing.JButton();
         expressionDialogBox = new javax.swing.JTextField();
         label1 = new java.awt.Label();
         userInputBox = new javax.swing.JTextField();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
+        attemptField = new javax.swing.JTextField();
+        label2 = new java.awt.Label();
+        totalField = new javax.swing.JTextField();
+        label3 = new java.awt.Label();
 
         javax.swing.GroupLayout jFrame1Layout = new javax.swing.GroupLayout(jFrame1.getContentPane());
         jFrame1.getContentPane().setLayout(jFrame1Layout);
@@ -44,12 +58,18 @@ public class Card_game_jframe extends javax.swing.JFrame {
         );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setBackground(new java.awt.Color(102, 102, 102));
+        setBackground(new java.awt.Color(51, 51, 51));
+        setForeground(java.awt.Color.white);
         setResizable(false);
 
         userSubmissionButton.setBackground(new java.awt.Color(102, 153, 255));
         userSubmissionButton.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         userSubmissionButton.setText("Verify");
+        userSubmissionButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                userSubmissionButtonActionPerformed(evt);
+            }
+        });
 
         refreshButton.setBackground(new java.awt.Color(153, 204, 255));
         refreshButton.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
@@ -81,19 +101,61 @@ public class Card_game_jframe extends javax.swing.JFrame {
             }
         });
 
-        jLabel2.setText("jLabel_photo3");
+        jLabel3.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel3.setFont(new java.awt.Font("Tahoma", 0, 1)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/Cardback.jpg"))); // NOI18N
+        jLabel3.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        jLabel3.setIconTextGap(-50);
+        jLabel3.setOpaque(true);
+
+        jLabel1.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel1.setFont(new java.awt.Font("Tahoma", 0, 1)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/Cardback.jpg"))); // NOI18N
+        jLabel1.setToolTipText("");
+        jLabel1.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
+        jLabel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        jLabel1.setIconTextGap(-50);
+        jLabel1.setOpaque(true);
+
+        jLabel4.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel4.setFont(new java.awt.Font("Tahoma", 0, 1)); // NOI18N
+        jLabel4.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/Cardback.jpg"))); // NOI18N
+        jLabel4.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        jLabel4.setIconTextGap(-50);
+        jLabel4.setOpaque(true);
+
+        jLabel2.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel2.setFont(new java.awt.Font("Tahoma", 0, 1)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/Cardback.jpg"))); // NOI18N
         jLabel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        jLabel2.setIconTextGap(-50);
+        jLabel2.setOpaque(true);
 
-        jLabel5.setBackground(new java.awt.Color(255, 255, 255));
-        jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/10_of_clubs.png"))); // NOI18N
-        jLabel5.setText("jLabel_photo1");
-        jLabel5.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        attemptField.setEditable(false);
+        attemptField.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        attemptField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        attemptField.setOpaque(false);
 
-        jLabel6.setText("jLabel_photo4");
-        jLabel6.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        label2.setAlignment(java.awt.Label.CENTER);
+        label2.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
+        label2.setText("Attempts:");
 
-        jLabel7.setText("jLabel_photo2");
-        jLabel7.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        totalField.setEditable(false);
+        totalField.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        totalField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        totalField.setOpaque(false);
+
+        label3.setAlignment(java.awt.Label.CENTER);
+        label3.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
+        label3.setText("Total:");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -105,43 +167,60 @@ public class Card_game_jframe extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(label1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(0, 0, 0)
-                                .addComponent(findSolution)))
+                            .addComponent(findSolution))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(expressionDialogBox, javax.swing.GroupLayout.PREFERRED_SIZE, 700, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
+                                .addComponent(expressionDialogBox, javax.swing.GroupLayout.DEFAULT_SIZE, 326, Short.MAX_VALUE)
+                                .addGap(416, 416, 416)
                                 .addComponent(refreshButton, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(userInputBox, javax.swing.GroupLayout.PREFERRED_SIZE, 700, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
                                 .addComponent(userSubmissionButton, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(label3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(totalField, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(label2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(attemptField, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(33, 33, 33)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(32, 32, 32)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(totalField, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(1, 1, 1)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(findSolution, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(refreshButton, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(expressionDialogBox, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(attemptField, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(label3, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(label2, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGap(22, 22, 22)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(findSolution, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(refreshButton, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(expressionDialogBox, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(23, 23, 23)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 323, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 323, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 323, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 323, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 323, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 323, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 323, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 35, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -153,11 +232,58 @@ public class Card_game_jframe extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
     private void refreshButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refreshButtonActionPerformed
         // TODO add your handling code here:
-        // refresh will reset pictures: current solution is to make a file containing list of png names. then have it randomly select each icon with a random png name in file.
-        jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/10_of_diamonds.png"))); // example , replace "/Images/10_of_clubs.png" with variable that holds random png names
+        String pngPic = "";
+        // opens file
+        File file = new File("/Users/awsom/Documents/GitHub/Java-Playing-Cards/PlayingCards24/src/Images/cardNameFile.txt");
+        try {
+            // creates array
+            String myArray[];
+            // allocates memory for 52 items (png name strings) :D
+            myArray = new String[52];
+            // counter to save each index
+            int counter = 0;
+            
+            // goes thru file with while loop and saves each string in each index
+            String str = "";
+            Scanner sc = new Scanner(file);
+            while(sc.hasNextLine()) {
+                str = sc.nextLine();
+                myArray[counter] = str;
+                counter++;
+            }
+            
+            // randomly selects items in myArray and sets them as card Icon
+            Random rand = new Random();
+            int selectorNum = 0;
+            for (int i = 1; i <= 4; i++) {
+                selectorNum = rand.nextInt(52);
+                pngPic = myArray[selectorNum];
+                switch(i) {
+                    case 1:
+                        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/"+pngPic)));
+                        jLabel1.setText(pngPic);
+                        break;
+                    case 2:
+                        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/"+pngPic)));
+                        jLabel2.setText(pngPic);
+                        break;
+                    case 3:
+                        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/"+pngPic)));
+                        jLabel3.setText(pngPic);
+                        break;
+                    case 4:
+                        jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/"+pngPic)));
+                        jLabel4.setText(pngPic);
+                        break;
+                }
+            }
+            totalUpdate();            
+        }
+        catch(FileNotFoundException e) {
+            System.out.println("File not found.");
+        }
     }//GEN-LAST:event_refreshButtonActionPerformed
 
     private void expressionDialogBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_expressionDialogBoxActionPerformed
@@ -169,6 +295,198 @@ public class Card_game_jframe extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_userInputBoxActionPerformed
 
+    private void userSubmissionButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_userSubmissionButtonActionPerformed
+        // TODO add your handling code here
+        // put if statement comparing global total and expression total
+    }//GEN-LAST:event_userSubmissionButtonActionPerformed
+    
+    // i am sorry this is messy
+    public void totalUpdate() { 
+        String totalString = "";
+        String attemptString = "";
+        
+        int cardVal1 = 0;
+        int cardVal2 = 0;
+        int cardVal3 = 0;
+        int cardVal4 = 0;
+        
+        // gets card name and parses string for value
+        String card1 = jLabel1.getText();
+        String card2 = jLabel2.getText();
+        String card3 = jLabel3.getText();
+        String card4 = jLabel4.getText();
+        
+        // eval for card 1
+        if (card1.contains("king")) {
+            cardVal1 = 13;
+        }
+        if (card1.contains("queen")) {
+            cardVal1 = 12;
+        }
+        if (card1.contains("jack")) {
+            cardVal1 = 11;
+        }
+        if (card1.contains("10")) {
+            cardVal1 = 10;
+        }
+        if (card1.contains("9")) {
+            cardVal1 = 9;
+        }
+        if (card1.contains("8")) {
+            cardVal1 = 8;
+        }
+        if (card1.contains("7")) {
+            cardVal1 = 7;
+        }
+        if (card1.contains("6")) {
+            cardVal1 = 6;
+        }
+        if (card1.contains("5")) {
+            cardVal1 = 5;
+        }
+        if (card1.contains("4")) {
+            cardVal1 = 4;
+        }
+        if (card1.contains("3")) {
+            cardVal1 = 3;
+        }
+        if (card1.contains("2")) {
+            cardVal1 = 2;
+        }
+        if (card1.contains("ace")) {
+            cardVal1 = 1;
+        }
+        
+        //eval for card 2
+        if (card2.contains("king")) {
+            cardVal2 = 13;
+        }
+        if (card2.contains("queen")) {
+            cardVal2 = 12;
+        }
+        if (card2.contains("jack")) {
+            cardVal2 = 11;
+        }
+        if (card2.contains("10")) {
+            cardVal2 = 10;
+        }
+        if (card2.contains("9")) {
+            cardVal2 = 9;
+        }
+        if (card2.contains("8")) {
+            cardVal2 = 8;
+        }
+        if (card2.contains("7")) {
+            cardVal2 = 7;
+        }
+        if (card2.contains("6")) {
+            cardVal2 = 6;
+        }
+        if (card2.contains("5")) {
+            cardVal2 = 5;
+        }
+        if (card2.contains("4")) {
+            cardVal2 = 4;
+        }
+        if (card2.contains("3")) {
+            cardVal2 = 3;
+        }
+        if (card2.contains("2")) {
+            cardVal2 = 2;
+        }
+        if (card2.contains("ace")) {
+            cardVal2 = 1;
+        }
+        
+        //eval for card 3
+        if (card3.contains("king")) {
+            cardVal3 = 13;
+        }
+        if (card3.contains("queen")) {
+            cardVal3 = 12;
+        }
+        if (card3.contains("jack")) {
+            cardVal3 = 11;
+        }
+        if (card3.contains("10")) {
+            cardVal3 = 10;
+        }
+        if (card3.contains("9")) {
+            cardVal3 = 9;
+        }
+        if (card3.contains("8")) {
+            cardVal3 = 8;
+        }
+        if (card3.contains("7")) {
+            cardVal3 = 7;
+        }
+        if (card3.contains("6")) {
+            cardVal3 = 6;
+        }
+        if (card3.contains("5")) {
+            cardVal3 = 5;
+        }
+        if (card3.contains("4")) {
+            cardVal3 = 4;
+        }
+        if (card3.contains("3")) {
+            cardVal3 = 3;
+        }
+        if (card3.contains("2")) {
+            cardVal3 = 2;
+        }
+        if (card3.contains("ace")) {
+            cardVal3 = 1;
+        }
+     
+        //eval for card 4
+        if (card4.contains("king")) {
+            cardVal4 = 13;
+        }
+        if (card4.contains("queen")) {
+            cardVal4 = 12;
+        }
+        if (card4.contains("jack")) {
+            cardVal4 = 11;
+        }
+        if (card4.contains("10")) {
+            cardVal4 = 10;
+        }
+        if (card4.contains("9")) {
+            cardVal4 = 9;
+        }
+        if (card4.contains("8")) {
+            cardVal4 = 8;
+        }
+        if (card4.contains("7")) {
+            cardVal4 = 7;
+        }
+        if (card4.contains("6")) {
+            cardVal4 = 6;
+        }
+        if (card4.contains("5")) {
+            cardVal4 = 5;
+        }
+        if (card4.contains("4")) {
+            cardVal4 = 4;
+        }
+        if (card4.contains("3")) {
+            cardVal4 = 3;
+        }
+        if (card4.contains("2")) {
+            cardVal4 = 2;
+        }
+        if (card4.contains("ace")) {
+            cardVal4 = 1;
+        }
+        total = cardVal1 + cardVal2 + cardVal3 + cardVal4;
+        attempts++;
+        totalString = totalString.valueOf(total);
+        attemptString = attemptString.valueOf(attempts);
+        totalField.setText(totalString);
+        attemptField.setText(attemptString);
+    }
+    
     /**
      * @param args the command line arguments
      */
@@ -203,17 +521,21 @@ public class Card_game_jframe extends javax.swing.JFrame {
             }
         });
     }
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTextField attemptField;
     private javax.swing.JTextField expressionDialogBox;
     private javax.swing.JButton findSolution;
     private javax.swing.JFrame jFrame1;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JSeparator jSeparator1;
     private java.awt.Label label1;
+    private java.awt.Label label2;
+    private java.awt.Label label3;
     private javax.swing.JButton refreshButton;
+    private javax.swing.JTextField totalField;
     private javax.swing.JTextField userInputBox;
     private javax.swing.JButton userSubmissionButton;
     // End of variables declaration//GEN-END:variables

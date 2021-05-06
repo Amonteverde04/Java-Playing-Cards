@@ -277,9 +277,10 @@ public class Card_game_jframe extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
     private void refreshButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refreshButtonActionPerformed
+        String dirHolder = dirUpdate();
         String pngPic = "";
         // opens file
-        File file = new File("/Users/awsom/Documents/GitHub/Java-Playing-Cards/PlayingCards24/src/Images/cardNameFile.txt");
+        File file = new File(dirHolder + "/src/Images/cardNameFile.txt");
         try {
             // creates array
             String myArray[];
@@ -403,7 +404,7 @@ public class Card_game_jframe extends javax.swing.JFrame {
     }//GEN-LAST:event_helpButtonActionPerformed
     
     // i am sorry this is messy
-    public void update() { 
+    private void update() { 
         String totalString = "";
         String attemptString = "";
         
@@ -583,7 +584,9 @@ public class Card_game_jframe extends javax.swing.JFrame {
         totalField.setText(totalString);
         attemptField.setText(attemptString);
     }
-    
+    private String dirUpdate() {
+        return System.getProperty("user.dir");
+    }
     /**
      * @param args the command line arguments
      */
